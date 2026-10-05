@@ -360,6 +360,33 @@
     .guide-fab { display: grid; place-items: center; position: absolute; z-index: 65; top: 4px; left: 50%; transform: translateX(-50%); height: 26px; padding: 0 10px; border-radius: 999px; background: var(--note); color: #000; font-weight: 800; font-size: 11.5px; }
   }
   .guide-close { display: none; }
+
+  /* ---------- App-only layout + demo bar ---------- */
+  .stage { grid-template-columns: minmax(0, 1fr) 390px !important; max-width: 1080px; }
+  .info-btn { display: none; width: 38px; height: 38px; border-radius: 50%; background: var(--surface); border: 1px solid var(--line); font-size: 16px; font-weight: 800; }
+  .phone-wrap { position: static !important; justify-self: center; width: 100%; max-width: 390px; display: grid; gap: 10px; }
+  .phone { width: 100% !important; height: min(820px, calc(100dvh - 96px)) !important; }
+  .demo-bar { display: flex; align-items: center; gap: 8px; }
+  .seg-switch { flex: 1; display: grid; grid-template-columns: 1fr 1fr; background: var(--surface); border: 1px solid var(--line); border-radius: 999px; padding: 3px; }
+  .seg-switch button { border-radius: 999px; padding: 8px 6px; font-weight: 800; font-size: 13px; color: var(--muted); }
+  .seg-switch button.on { background: var(--accent); color: #fff; }
+  .jump { position: relative; }
+  .jump summary { list-style: none; cursor: pointer; width: 38px; height: 38px; border-radius: 50%; background: var(--surface); border: 1px solid var(--line); display: grid; place-items: center; font-size: 15px; }
+  .jump summary::-webkit-details-marker { display: none; }
+  .jump[open] summary { border-color: var(--accent); }
+  .jump-menu { position: absolute; right: 0; top: 46px; z-index: 200; width: 240px; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 6px; box-shadow: 0 20px 50px -10px #000; display: grid; }
+  .jump-h { margin: 6px 10px 6px; font-size: 11px; font-weight: 800; letter-spacing: .08em; color: var(--muted); text-transform: uppercase; }
+  .jump-menu button { text-align: left; padding: 9px 10px; border-radius: 10px; display: grid; }
+  .jump-menu button:hover:not([disabled]) { background: var(--surface-2); }
+  .jump-menu button b { font-size: 13.5px; } .jump-menu button span { font-size: 11.5px; color: var(--muted); }
+  .jump-menu button[disabled] { opacity: .35; cursor: not-allowed; }
+  @media (max-width: 900px) {
+    .stage { grid-template-columns: 1fr !important; max-width: 430px; }
+    .info-btn { display: grid; place-items: center; }
+    body { padding-block: 8px; }
+    .phone { height: calc(100dvh - 72px) !important; border-radius: 22px; }
+  }
+
   @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
 </style>
 </head>
@@ -369,25 +396,11 @@
     <div>
       <div class="row" style="justify-content:space-between;align-items:center">
         <div class="eyebrow">StoryTV · R2 case study · prototype</div>
-        <button class="chip-btn guide-close" id="guideClose">✕ Close guide</button>
+        <button class="chip-btn guide-close" id="guideClose">✕ Close</button>
       </div>
       <h1>Subscription, sold through the story</h1>
-      <p class="lede">Two journeys from the deck: a <b>Story Chaser</b> who arrives from an ad for one show, and a <b>Daily Binger</b> who opens the app every day. Use the time controls to jump to day 6, day 8 and later months.</p>
+      <p class="lede">Switch persona and jump ahead in time from the bar above the app. This panel explains what changed on each screen, tagged with the priority numbers from the deck.</p>
       <p class="disclaimer">Concept prototype for a case study. Not affiliated with StoryTV. Fictional shows, demo payments, no real money.</p>
-    </div>
-    <div class="panel">
-      <h2>Play a journey</h2>
-      <div class="row">
-        <button class="chip-btn primary" data-g="chaser">▶ Story Chaser</button>
-        <button class="chip-btn primary" data-g="binger">▶ Daily Binger</button>
-        <button class="chip-btn" data-g="compare">Compare: today's paywall</button>
-        <button class="chip-btn" data-g="reset">Reset</button>
-      </div>
-    </div>
-    <div class="panel">
-      <h2>Time controls</h2>
-      <div class="row" id="timeRow"></div>
-      <p class="foot" id="timeNote"></p>
     </div>
     <div class="panel" aria-live="polite">
       <h2>What changed on this screen</h2>
@@ -407,8 +420,15 @@
       <p class="foot">Decide on day-8 paid conversion per 1,000 first plays. Guardrails: revenue per paywall view, refunds + chargebacks, mandate failures, Play rating.</p>
     </div>
   </aside>
-
   <div class="phone-wrap">
+    <div class="demo-bar" role="toolbar" aria-label="Demo controls">
+      <div class="seg-switch" role="tablist" aria-label="Persona">
+        <button data-g="chaser" role="tab" id="pChaser">Story Chaser</button>
+        <button data-g="binger" role="tab" id="pBinger">Daily Binger</button>
+      </div>
+      <button class="info-btn" data-g="openGuide" aria-label="Open guide">ⓘ</button>
+      <details class="jump" id="jump"><summary aria-label="Jump ahead">⏩</summary><div class="jump-menu" id="jumpMenu"></div></details>
+    </div>
     <div class="phone" id="phone" aria-label="StoryTV concept app"></div>
   </div>
 </div>
@@ -485,7 +505,7 @@
   const fresh = () => ({
     screen: "home", tab: "home", show: "truck", ep: 1, journey: null,
     watched: new Set(), adUnlocked: new Set(), adUsedToday: false,
-    follows: ["truck", "rishte", "saas"], splash: true, genre: "All", myList: new Set(),
+    follows: ["truck", "rishte", "saas"], splash: false, genre: "All", myList: new Set(),
     sub: null, // { kind: "intro"|"plan", plan, status: "intro"|"active"|"cancelled", owned: [show], months: 0, billDay: 13, day: 0 }
     day: 0, plan: "monthly", billDay: 13,
     sheet: null, upi: null, chat: null, compare: false, ad: null,
@@ -801,7 +821,7 @@
 
   // ---------- Guide panel ----------
   function notes() {
-    if (S.splash) return ["Start a journey", [["Tip", "Story Chaser is the hero flow (about 90 seconds). Daily Binger shows retention (about 45 seconds)."]]];
+    if (S.splash) return ["Start a journey", [["Tip", "Story Chaser is the hero flow (about 90 seconds). Daily Binger shows retention (about 45 seconds). Use ⏩ above the app to jump to day 6, day 8 or next month."]]];
     if (S.compare) return ["Today's StoryTV paywall", [["Baseline", "One plan (₹1 for 1 day → ₹699 / quarter), no close button, shown at sign-up and after a fixed Ep 3."]]];
     if (S.ad && S.ad.kind === "insta") return ["The ad that brings a Story Chaser", [["#3", "Tapping the ad deep-links to Ep 1 of this exact show. No sign-up paywall."]]];
     if (S.ad) return ["1 ad unlock a day", [["#11", "Closing the paywall isn't a dead end, but nothing is free all the way: 1 unlock a day, and unlocked stays unlocked."]]];
@@ -825,24 +845,25 @@
     return map[S.screen] || ["Explore", [["Scope", "Not changed in this concept."]]];
   }
 
-  function timeButtons() {
-    const row = document.getElementById("timeRow"), note = document.getElementById("timeNote");
-    const s = S.sub;
-    const b = (label, act, on) => `<button class="chip-btn" data-g="${act}" ${on ? "" : "disabled"}>${label}</button>`;
-    row.innerHTML =
-      b("Day 6 · reminder", "day6", s && s.status === "intro") +
-      b("Day 8 · first charge", "day8", s && (s.status === "intro" || (s.status === "cancelled" && s.kind === "intro" && !s.d8))) +
-      b("Next month", "month", s && s.status === "active" && s.plan !== "weekly") +
-      b("Jump to finale", "finale", subOn() || (s && s.owned.length));
-    note.textContent = s ? `Demo date: ${fmt(S.day)} · ${s.status === "intro" ? "intro week" : s.status === "active" ? `${PLANS[s.plan].name}${s.plan === "monthly" ? `, ${s.months} month(s) paid` : ""}` : "cancelled"}` : "Time controls unlock after a purchase.";
-  }
-
-  function renderGuide() {
+  function renderBar() {
     const [t, list] = notes();
     document.getElementById("noteTitle").textContent = t;
     document.getElementById("notes").innerHTML = list.map(([k, v]) => `<li><span class="tag">${k}</span><span>${v}</span></li>`).join("");
     for (const [id, key] of [["mPlays","plays"],["mPw","pw"],["mIntro","intro"],["mPlan","plan"],["mPaid","paid"],["mKept","kept"]]) document.getElementById(id).textContent = S.m[key];
-    timeButtons();
+    document.getElementById("pChaser").classList.toggle("on", S.journey === "chaser");
+    document.getElementById("pBinger").classList.toggle("on", S.journey === "binger");
+    document.getElementById("pChaser").setAttribute("aria-selected", S.journey === "chaser");
+    document.getElementById("pBinger").setAttribute("aria-selected", S.journey === "binger");
+    const s = S.sub;
+    const item = (label, sub, act, on) => `<button data-g="${act}" ${on ? "" : "disabled"}><b>${label}</b><span>${sub}</span></button>`;
+    document.getElementById("jumpMenu").innerHTML =
+      `<p class="jump-h">Demo date: ${fmt(S.day)}</p>` +
+      item("Day 6", "WhatsApp reminder", "day6", s && s.status === "intro") +
+      item("Day 8", "First charge", "day8", s && (s.status === "intro" || (s.status === "cancelled" && s.kind === "intro" && !s.d8))) +
+      item("Next month", "Renewal reminder", "month", s && s.status === "active" && s.plan !== "weekly") +
+      item("Finale", "Last episode", "finale", subOn() || (s && s.owned.length)) +
+      item("Today's StoryTV", "Current paywall, for comparison", "compare", true) +
+      item("Restart", "Start this journey again", "restart", true);
   }
 
   // ---------- Render ----------
@@ -858,9 +879,8 @@
     if (S.chat) html += overlayChat();
     if (S.compare) html += overlayToday();
     if (S.splash) html += overlaySplash();
-    html += `<button class="guide-fab" data-g="openGuide">Guide</button>`;
     phone.innerHTML = html;
-    renderGuide();
+    renderBar();
     if (S.screen === "player" && !S.sheet && !S.ad && !S.chat && !S.compare && !S.splash && !S.upi) startProgress();
     if (S.ad && S.ad.kind === "unlock") startAd();
   }
@@ -917,7 +937,8 @@
       case "chaser": reset(); S.journey = "chaser"; S.follows = ["saas"]; S.ad = { kind: "insta", show: "truck" }; break;
       case "binger": reset(); S.journey = "binger"; ["truck:1","truck:2","truck:3","truck:4","truck:5","truck:6","rishte:1","rishte:2","rishte:3"].forEach(x => S.watched.add(x)); S.m.plays = 9; S.plan = "monthly"; break;
       case "compare": S.compare = true; S.splash = false; break;
-      case "reset": S = fresh(); break;
+      case "restart": return guideAction(S.journey || "chaser");
+      case "openGuide": document.getElementById("guide").classList.add("open"); return;
       case "day6": if (S.sub && S.sub.status === "intro") { S.day = S.sub.start + 6; S.chat = "day6"; S.sheet = null; } break;
       case "day8":
         if (S.sub) {
@@ -927,13 +948,14 @@
         } break;
       case "month": if (S.sub && S.sub.status === "active") { S.chat = "renew"; S.sheet = null; } break;
       case "finale": S.show = (S.sub && S.sub.owned[0]) || "truck"; S.ep = SHOWS[S.show].total; S.screen = "player"; S.sheet = null; S.chat = null; break;
-      case "openGuide": document.getElementById("guide").classList.add("open"); return;
     }
-    if (g !== "openGuide") document.getElementById("guide").classList.remove("open");
+    document.getElementById("jump").open = false;
+    document.getElementById("guide").classList.remove("open");
     render();
   }
-  document.querySelector(".guide").addEventListener("click", (e) => { const b = e.target.closest("[data-g]"); if (b && !b.disabled) guideAction(b.dataset.g); });
   document.getElementById("guideClose").addEventListener("click", () => document.getElementById("guide").classList.remove("open"));
+  document.querySelector(".demo-bar").addEventListener("click", (e) => { const b = e.target.closest("[data-g]"); if (b && !b.disabled) guideAction(b.dataset.g); });
+  document.addEventListener("click", (e) => { const j = document.getElementById("jump"); if (j.open && !j.contains(e.target)) j.open = false; });
 
   phone.addEventListener("click", (e) => {
     const el = e.target.closest("[data-act],[data-open],[data-ep],[data-tab],[data-plan],[data-day],[data-g],[data-genre]");
@@ -987,7 +1009,7 @@
     render();
   });
 
-  render();
+  guideAction("chaser");
   if ("serviceWorker" in navigator && location.protocol.startsWith("http")) navigator.serviceWorker.register("sw.js").catch(() => {});
 })();
 </script>
