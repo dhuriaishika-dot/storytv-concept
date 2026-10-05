@@ -303,6 +303,52 @@
   .chip-left { font-size: 11px; font-weight: 800; color: var(--note); background: var(--note-soft); padding: 3px 8px; border-radius: 999px; }
   .ad-row.used { opacity: .7; grid-template-columns: 36px 1fr; }
 
+
+  /* ---------- Home v2 ---------- */
+  .top-r { display: flex; align-items: center; gap: 8px; }
+  .icon-btn { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; background: var(--surface); }
+  .hero2 { position: relative; margin: 0 16px; height: 330px; border-radius: 18px; overflow: hidden; }
+  .hero2-shade { position: absolute; inset: 0; background: linear-gradient(#0000 30%, #000d 85%); }
+  .hero2-body { position: absolute; left: 16px; right: 16px; bottom: 16px; }
+  .hero2-tag { display: inline-block; font-size: 10px; font-weight: 800; letter-spacing: .08em; background: var(--accent); padding: 3px 7px; border-radius: 4px; }
+  .hero2 h2 { font-family: var(--poster); font-weight: 400; font-size: 34px; line-height: 1; margin: 10px 0 6px; text-shadow: 0 2px 14px #000; }
+  .hero2 p { margin: 0 0 12px; font-size: 12.5px; color: #e9e3ec; }
+  .hero2-btns { display: grid; grid-template-columns: 1.4fr 1fr; gap: 8px; }
+  .hb-play { background: #fff; color: #000; font-weight: 800; border-radius: 10px; padding: 11px; font-size: 14px; }
+  .hb-list { background: #ffffff26; backdrop-filter: blur(6px); font-weight: 700; border-radius: 10px; padding: 11px; font-size: 14px; }
+  .chips { display: flex; gap: 8px; overflow-x: auto; padding: 14px 16px 2px; scrollbar-width: none; }
+  .chips::-webkit-scrollbar { display: none; }
+  .chip { flex: none; padding: 7px 13px; border-radius: 999px; background: var(--surface); border: 1px solid var(--line); font-size: 12.5px; font-weight: 700; color: var(--muted); }
+  .chip.on { background: #fff; color: #000; border-color: #fff; }
+
+  .ys-card { flex: none; width: 128px; text-align: left; display: grid; gap: 4px; }
+  .ys-art { position: relative; width: 128px; aspect-ratio: 4/5; border-radius: 12px; overflow: hidden; }
+  .ys-st { position: absolute; left: 6px; bottom: 6px; font-size: 10px; font-weight: 800; padding: 3px 7px; border-radius: 999px; background: #000b; }
+  .ys-st.lock { color: var(--accent-ink); } .ys-st.free { color: var(--ok); } .ys-st.go { color: #fff; }
+  .ys-card b { font-size: 13px; line-height: 1.2; } .ys-card > span { font-size: 11.5px; color: var(--muted); }
+
+  .cw-card { flex: none; width: 150px; text-align: left; display: grid; gap: 4px; }
+  .cw-art { position: relative; width: 150px; aspect-ratio: 16/10; border-radius: 10px; overflow: hidden; }
+  .cw-play { position: absolute; inset: 0; margin: auto; width: 34px; height: 34px; border-radius: 50%; background: #000a; display: grid; place-items: center; }
+  .cw-bar { height: 3px; background: var(--surface-2); border-radius: 2px; overflow: hidden; }
+  .cw-bar div { height: 100%; background: var(--accent); }
+  .cw-card b { font-size: 13px; } .cw-card > span { font-size: 11.5px; color: var(--muted); }
+
+  .top10 { gap: 4px; }
+  .t10 { flex: none; display: flex; align-items: flex-end; text-align: left; }
+  .t10 .rank { font-family: var(--display); font-weight: 800; font-size: 86px; line-height: .8; color: var(--bg); -webkit-text-stroke: 2px #6f6976; margin-right: -10px; z-index: 1; position: relative; }
+  .t10-art { position: relative; width: 104px; aspect-ratio: 2/3; border-radius: 10px; overflow: hidden; border: 1px solid #ffffff14; }
+  .t10-name { position: absolute; left: 12px; right: 7px; top: 8px; font-family: var(--poster); font-size: 14px; line-height: 1.05; text-shadow: 0 2px 8px #000; }
+  .badge.new { background: #fff; color: #000; }
+
+  .daily-card { position: relative; flex: none; width: 240px; height: 132px; border-radius: 14px; overflow: hidden; text-align: left; padding: 12px; display: flex; flex-direction: column; justify-content: flex-end; }
+  .daily-shade { position: absolute; inset: 0; background: linear-gradient(90deg, #000c, #0000 80%); }
+  .daily-card > *:not(.art):not(.daily-shade) { position: relative; z-index: 1; }
+  .daily-live { position: absolute !important; top: 10px; left: 12px; font-size: 10px; font-weight: 800; color: var(--ok); letter-spacing: .06em; }
+  .daily-card b { font-family: var(--poster); font-weight: 400; font-size: 20px; line-height: 1.05; }
+  .daily-card > span:last-child { font-size: 11.5px; color: #dcd6df; }
+  .empty { color: var(--muted); text-align: center; padding: 30px 16px; }
+
   @media (max-width: 900px) {
     body { padding-block: 12px; }
     .stage { grid-template-columns: 1fr; }
@@ -411,6 +457,20 @@
       art: "radial-gradient(80% 60% at 60% 20%, #6a8bff 0%, #0000 60%), linear-gradient(170deg, #121b3f, #03050e)",
       eps: {},
     },
+    bodyguard: { title: "Bodyguard Bahu", genre: "Romance", total: 100, free: 6, plays: "72.4M", hook: "Why is the bride carrying a gun?",
+      art: "radial-gradient(80% 60% at 65% 22%, #ff8a5c 0%, #0000 60%), linear-gradient(170deg, #4a1a10, #0d0403)", eps: {} },
+    badla: { title: "Badla Ek Biwi Ka", genre: "Revenge", total: 140, free: 7, plays: "96.3M", hook: "Can Anjali take back everything they stole?",
+      art: "radial-gradient(70% 60% at 55% 25%, #ff3d6e 0%, #0000 62%), linear-gradient(170deg, #3d0815, #0b0204)", eps: {} },
+    chaiwala: { title: "Chaiwala CEO", genre: "Drama", total: 110, free: 6, plays: "64.8M", hook: "Who bought the company overnight?",
+      art: "radial-gradient(80% 60% at 40% 22%, #e6c27a 0%, #0000 60%), linear-gradient(170deg, #2c2410, #0a0804)", eps: {} },
+    mafia: { title: "Mafia Ki Malkin", genre: "Revenge", total: 120, free: 6, plays: "28.4M", hook: "Who really runs the family now?",
+      art: "radial-gradient(80% 60% at 50% 20%, #8f8f9e 0%, #0000 60%), linear-gradient(170deg, #1a1a22, #050507)", eps: {} },
+    pishach: { title: "Pishachini", genre: "Supernatural", total: 90, free: 5, plays: "22.9M", hook: "What came back from the well?",
+      art: "radial-gradient(80% 60% at 50% 25%, #59e0a0 0%, #0000 60%), linear-gradient(170deg, #0b2a1d, #020806)", eps: {} },
+    shehzada: { title: "Second Hand Shehzada", genre: "Romance", total: 95, free: 6, plays: "18.6M", hook: "Is the prince really broke?",
+      art: "radial-gradient(80% 60% at 35% 25%, #ffb3d9 0%, #0000 60%), linear-gradient(170deg, #3a1530, #0a0309)", eps: {} },
+    doctor: { title: "Doctor Didi", genre: "Family · Daily", total: 260, free: 260, plays: "54.2M", daily: true,
+      art: "radial-gradient(80% 60% at 45% 25%, #7fc8ff 0%, #0000 60%), linear-gradient(170deg, #0f2a40, #03080d)", eps: { 140: "Didi's clinic gets its first VIP patient. It's her ex." } },
   };
   const PLANS = {
     weekly:    { name: "Weekly",    hi: "Weekly",    price: 59,  per: "week",     note: "₹59/week" },
@@ -425,7 +485,7 @@
   const fresh = () => ({
     screen: "home", tab: "home", show: "truck", ep: 1, journey: null,
     watched: new Set(), adUnlocked: new Set(), adUsedToday: false,
-    follows: ["truck", "rishte", "saas"], splash: true,
+    follows: ["truck", "rishte", "saas"], splash: true, genre: "All", myList: new Set(),
     sub: null, // { kind: "intro"|"plan", plan, status: "intro"|"active"|"cancelled", owned: [show], months: 0, billDay: 13, day: 0 }
     day: 0, plan: "monthly", billDay: 13,
     sheet: null, upi: null, chat: null, compare: false, ad: null,
@@ -456,32 +516,86 @@
   const poster = (k, badge) => { const s = SHOWS[k]; return `<button class="poster" data-open="${k}" aria-label="${s.title}"><div class="art" style="background:${s.art}"></div>${badge?`<span class="badge">${badge}</span>`:""}<span class="name">${s.title}</span><span class="plays">▶ ${s.plays}</span></button>`; };
   const lastEp = (k) => Math.max(0, ...[...S.watched].filter(x => x.startsWith(k + ":")).map(x => +x.split(":")[1]));
 
+  const GENRES = ["All", "Romance", "Revenge", "Drama", "Family", "Thriller", "Supernatural"];
+  const ROWS = {
+    top10: ["truck", "badla", "saas", "bodyguard", "chaiwala", "rishte", "nurse", "mafia", "inspector", "pishach"],
+    fresh: [["nurse", "Mon"], ["mafia", "Tue"], ["pishach", "Wed"], ["shehzada", "Fri"]],
+    popular: ["chaiwala", "bodyguard", "badla", "rishte", "inspector", "shehzada"],
+    dailies: ["saas", "doctor"],
+  };
+  const matchG = (k) => S.genre === "All" || SHOWS[k].genre.startsWith(S.genre);
+
   function viewHome() {
+    const subTag = subOn() ? `<span class="pill">${S.sub.status === "intro" ? "Intro week" : PLANS[S.sub.plan].name}</span>` : `<button class="pill hot" data-act="paywallHome">₹49 offer</button>`;
+    // Hero
+    const heroK = ["truck", "badla", "rishte", "saas", "inspector", "pishach", "chaiwala"].find(matchG) || "truck";
+    const h = SHOWS[heroK], inList = S.myList.has(heroK);
+    const hero = `<section class="hero2" aria-label="Featured">
+        <div class="art" style="background:${h.art}"></div><div class="hero2-shade"></div>
+        <div class="hero2-body">
+          <span class="hero2-tag">STORYTV ORIGINAL · #${ROWS.top10.indexOf(heroK) + 1 || 1} IN INDIA TODAY</span>
+          <h2>${h.title}</h2>
+          <p>${h.genre} · ${h.total} episodes · ${h.plays} plays</p>
+          <div class="hero2-btns"><button class="hb-play" data-open="${heroK}">▶ Play Ep ${Math.min(lastEp(heroK) + 1, h.total)}</button>
+          <button class="hb-list" data-act="mylist" data-k="${heroK}">${inList ? "✓ In My List" : "+ My List"}</button></div>
+        </div></section>`;
+    const chips = `<div class="chips" role="tablist">${GENRES.map(g => `<button class="chip ${S.genre === g ? "on" : ""}" data-genre="${g}" role="tab" aria-selected="${S.genre === g}">${g}</button>`).join("")}</div>`;
+
+    // Your shows today (#7)
     const items = S.follows.map(k => {
       const s = SHOWS[k];
-      if (s.daily) return `<button class="today-item" data-open="${k}"><div class="thumb"><div class="art" style="background:${s.art}"></div></div><div><b>${s.title}</b><span>Today's Ep 212 · new every day</span></div><span class="st free">FREE</span></button>`;
+      if (s.daily) return `<button class="ys-card" data-open="${k}"><div class="ys-art"><div class="art" style="background:${s.art}"></div><span class="ys-st free">FREE TODAY</span></div><b>${s.title}</b><span>Ep 212 · new every day</span></button>`;
       const next = Math.max(lastEp(k) + 1, 1), locked = !canWatch(k, Math.max(next, s.free + 1));
       const newEps = k === "truck" ? 3 : 2;
-      return `<button class="today-item" data-open="${k}"><div class="thumb"><div class="art" style="background:${s.art}"></div></div><div><b>${s.title}</b><span>${newEps} new episodes · from Ep ${next}</span></div><span class="st ${locked ? "lock" : ""}">${locked ? "🔒 " + newEps : "▶ Watch"}</span></button>`;
+      return `<button class="ys-card" data-open="${k}"><div class="ys-art"><div class="art" style="background:${s.art}"></div><span class="ys-st ${locked ? "lock" : "go"}">${locked ? "🔒 " + newEps + " NEW" : "▶ " + newEps + " NEW"}</span></div><b>${s.title}</b><span>From Ep ${next}</span></button>`;
     }).join("");
     const locked = S.follows.filter(k => !SHOWS[k].daily && !subOn() && !owns(k)).length;
-    let banner = "";
-    if (!subOn() && locked) banner = `<button class="banner" data-act="paywallHome"><div><b>Unlock your ${locked} shows</b><span>₹49 for 7 days of everything · or pick a plan</span></div><span class="go">₹49</span></button>`;
+    const banner = (!subOn() && locked) ? `<button class="banner" data-act="paywallHome"><div><b>Unlock your ${locked} shows</b><span>₹49 for 7 days of everything · or pick a plan</span></div><span class="go">₹49</span></button>` : "";
     let loyal = "";
     if (S.sub && S.sub.status === "active" && S.sub.plan === "monthly") {
       const m = S.sub.months;
       loyal = m >= 4 ? `<div class="loyal">⭐ Loyal member: now just ₹166/month</div>` : m === 3 ? `<div class="loyal">⭐ 3 months in a row · ₹166/month from your next renewal</div>` : `<div class="loyal">⭐ Month ${m} of 3 · ₹166/month from month 4</div>`;
     }
+    const yours = S.genre === "All" ? `<div class="sec"><h3>Your shows today</h3><small>${fmt(S.day)}</small></div><div class="hrow">${items}</div>${banner}${loyal}` : "";
+
+    // Continue watching
+    const cw = Object.keys(SHOWS).filter(k => !SHOWS[k].daily && lastEp(k) > 0 && matchG(k));
+    const cwRow = cw.length ? `<div class="sec"><h3>Continue watching</h3></div><div class="hrow">${cw.map(k => {
+      const s = SHOWS[k], e = lastEp(k);
+      return `<button class="cw-card" data-open="${k}"><div class="cw-art"><div class="art" style="background:${s.art}"></div><span class="cw-play">${I.play}</span></div><div class="cw-bar"><div style="width:${Math.max(4, Math.round(e / s.total * 100))}%"></div></div><b>${s.title}</b><span>Ep ${e} of ${s.total}</span></button>`;
+    }).join("")}</div>` : "";
+
+    // Top 10
+    const t10 = ROWS.top10.filter(matchG);
+    const top = t10.length ? `<div class="sec"><h3>Top 10 in India today</h3><small>Updated hourly</small></div><div class="hrow top10">${t10.map(k => {
+      const s = SHOWS[k], rank = ROWS.top10.indexOf(k) + 1;
+      return `<button class="t10" data-open="${k}" aria-label="#${rank} ${s.title}"><span class="rank">${rank}</span><div class="t10-art"><div class="art" style="background:${s.art}"></div><span class="t10-name">${s.title}</span></div></button>`;
+    }).join("")}</div>` : "";
+
+    // New this week
+    const nw = ROWS.fresh.filter(([k]) => matchG(k));
+    const newRow = nw.length ? `<div class="sec"><h3>New this week</h3><small>Fresh drops</small></div><div class="hrow">${nw.map(([k, d]) => {
+      const s = SHOWS[k];
+      return `<button class="poster" data-open="${k}" aria-label="${s.title}"><div class="art" style="background:${s.art}"></div><span class="badge new">NEW · ${d}</span><span class="name">${s.title}</span><span class="plays">${s.genre}</span></button>`;
+    }).join("")}</div>` : "";
+
+    // Popular
+    const pop = ROWS.popular.filter(matchG);
+    const popRow = pop.length ? `<div class="sec"><h3>Popular right now</h3><small>See all</small></div><div class="hrow">${pop.map(k => poster(k)).join("")}</div>` : "";
+
+    // Dailies
+    const dl = ROWS.dailies.filter(matchG);
+    const dlRow = dl.length ? `<div class="sec"><h3>Dailies</h3><small>New episode every day · free</small></div><div class="hrow">${dl.map(k => {
+      const s = SHOWS[k];
+      return `<button class="daily-card" data-open="${k}"><div class="art" style="background:${s.art}"></div><div class="daily-shade"></div><span class="daily-live">● NEW TODAY</span><b>${s.title}</b><span>Ep ${s.daily && k === "saas" ? 212 : 140} · free for everyone</span></button>`;
+    }).join("")}</div>` : "";
+
+    const empty = (!top && !newRow && !popRow && !dlRow && !cwRow) ? `<p class="empty">No ${S.genre} shows yet. Try another genre.</p>` : "";
+
     return `${status()}
       <header class="app-top"><div class="wordmark">Story<i>TV</i> <span class="concept">CONCEPT</span></div>
-        ${subOn() ? `<span class="pill">${S.sub.status === "intro" ? "Intro week" : PLANS[S.sub.plan].name}</span>` : `<span class="pill">Free</span>`}</header>
-      <div class="scroll">
-        <div class="sec"><h3>Your shows today</h3><small>${fmt(S.day)}</small></div>
-        <div class="today-list">${items}</div>${banner}${loyal}
-        <div class="sec"><h3>Trending</h3><small>See all</small></div>
-        <div class="hrow">${poster("truck","ORIGINAL")}${poster("nurse","NEW")}${poster("inspector")}${poster("rishte")}</div>
-        <div style="height:14px"></div>
-      </div>${tabbar()}`;
+        <div class="top-r"><button class="icon-btn" data-act="search" aria-label="Search"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg></button>${subTag}</div></header>
+      <div class="scroll">${hero}${chips}${yours}${cwRow}${top}${newRow}${popRow}${dlRow}${empty}<div style="height:16px"></div></div>${tabbar()}`;
   }
 
   function viewSeries() {
@@ -822,7 +936,7 @@
   document.getElementById("guideClose").addEventListener("click", () => document.getElementById("guide").classList.remove("open"));
 
   phone.addEventListener("click", (e) => {
-    const el = e.target.closest("[data-act],[data-open],[data-ep],[data-tab],[data-plan],[data-day],[data-g]");
+    const el = e.target.closest("[data-act],[data-open],[data-ep],[data-tab],[data-plan],[data-day],[data-g],[data-genre]");
     if (!el) return;
     if (el.dataset.g) return guideAction(el.dataset.g);
     if (el.dataset.act === "closeSheet" && el.classList.contains("scrim") && e.target !== el) return;
@@ -831,6 +945,7 @@
     if (d.ep) { const n = +d.ep; if (canWatch(S.show, n)) { S.ep = n; S.screen = "player"; render(); } else { S.ep = Math.max(1, ...[...Array(n).keys()].filter(i => i > 0 && canWatch(S.show, i))); openPaywall("story"); } return; }
     if (d.tab) { S.tab = d.tab; S.screen = d.tab; S.sheet = null; return render(); }
     if (d.plan) { S.plan = d.plan; return render(); }
+    if (d.genre) { S.genre = d.genre; return render(); }
     if (d.day) { S.billDay = +d.day; return render(); }
     switch (d.act) {
       case "home": S.screen = "home"; S.tab = "home"; break;
@@ -866,6 +981,8 @@
         return toast(kept ? `AutoPay stopped. ${SHOWS[S.sub.owned[0]].title} is yours to keep; other shows until ${fmt(S.sub.accessUntil - 1)}.` : `AutoPay stopped. Watch until ${fmt(S.sub.accessUntil - 1)}.`);
       }
       case "s2": return toast("We'll tell you when Season 2 drops 🔔");
+      case "mylist": { const k = el.dataset.k; if (S.myList.has(k)) { S.myList.delete(k); return toast("Removed from My List"); } S.myList.add(k); return toast("Added to My List"); }
+      case "search": return toast("Search isn't part of this concept");
     }
     render();
   });
