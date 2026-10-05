@@ -256,6 +256,53 @@
 
   .toast { position: absolute; z-index: 70; left: 50%; bottom: 92px; transform: translateX(-50%); max-width: 90%; background: var(--text); color: #000; font-weight: 800; font-size: 13px; padding: 9px 14px; border-radius: 12px; text-align: center; animation: fade .2s; }
 
+
+  /* ---------- Paywall v2: three clear segments ---------- */
+  .sheet2 { padding: 8px 16px 20px; display: grid; gap: 12px; }
+  .grab { width: 40px; height: 4px; border-radius: 2px; background: #ffffff33; margin: 2px auto 2px; }
+  .pw-head { display: grid; grid-template-columns: 56px 1fr; gap: 12px; align-items: center; }
+  .pw-head.solo { grid-template-columns: 1fr; }
+  .pw-thumb { width: 56px; aspect-ratio: 2/3; border-radius: 9px; position: relative; overflow: hidden; }
+  .pw-thumb .art { inset: -8px; filter: blur(5px) brightness(.75); }
+  .pw-thumb span { position: absolute; inset: 0; display: grid; place-items: center; font-weight: 800; font-size: 12px; }
+  .pw-head small { color: var(--accent-ink); font-weight: 800; font-size: 11px; letter-spacing: .06em; }
+  .pw-head h4 { margin: 2px 0 2px; font-family: var(--display); font-size: 22px; line-height: 1.1; font-weight: 700; }
+  .pw-head p { margin: 0; color: var(--muted); font-size: 13px; }
+
+  .seg { border-radius: 16px; }
+  .seg-intro { background: linear-gradient(150deg, #e0177f 0%, #9c0f58 100%); padding: 14px 14px 12px; box-shadow: 0 10px 30px -12px #e0177f99; }
+  .pill-new { display: inline-block; background: #ffffff26; color: #fff; font-size: 10.5px; font-weight: 800; letter-spacing: .08em; padding: 3px 8px; border-radius: 999px; }
+  .intro-price { display: flex; align-items: baseline; gap: 8px; margin: 8px 0 6px; }
+  .intro-price b { font-family: var(--display); font-size: 40px; font-weight: 800; line-height: 1; }
+  .intro-price span { font-size: 15px; font-weight: 700; color: #ffe1ef; }
+  .ticks { list-style: none; margin: 0 0 12px; padding: 0; display: grid; gap: 6px; }
+  .ticks li { display: grid; grid-template-columns: 18px 1fr; gap: 8px; font-size: 13px; line-height: 1.35; color: #fff0f7; }
+  .ticks i { font-style: normal; width: 18px; height: 18px; border-radius: 50%; background: #ffffff2e; display: grid; place-items: center; font-size: 11px; font-weight: 800; }
+  .btn-primary { width: 100%; background: #fff; color: #9c0f58; font-weight: 800; font-size: 16px; border-radius: 12px; padding: 13px; }
+  .seg-plans .btn-primary { background: var(--accent); color: #fff; }
+  .seg-fine { margin: 8px 0 0; text-align: center; font-size: 11.5px; color: #ffd6ea; }
+
+  .divider { display: flex; align-items: center; gap: 10px; color: var(--muted); font-size: 12px; font-weight: 700; }
+  .divider::before, .divider::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+
+  .seg-title { font-weight: 800; font-size: 14px; margin-bottom: 8px; }
+  .plans2 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 10px; }
+  .plan2 { position: relative; display: grid; justify-items: center; gap: 2px; padding: 14px 6px 10px; border-radius: 12px; background: var(--bg); border: 1.5px solid var(--line); text-align: center; transition: border-color .15s, background .15s; }
+  .plan2 b { font-size: 13px; }
+  .plan2 .pr { font-family: var(--display); font-weight: 800; font-size: 20px; font-variant-numeric: tabular-nums; }
+  .plan2 .per { font-size: 11px; color: var(--muted); }
+  .plan2.on { border-color: #fff; background: #1f1c24; }
+  .radio2 { position: absolute; top: 8px; right: 8px; width: 14px; height: 14px; border-radius: 50%; border: 1.5px solid var(--dim); }
+  .plan2.on .radio2 { border-color: #fff; background: #fff; box-shadow: inset 0 0 0 3px #1f1c24; }
+  .badge-best { position: absolute; top: -9px; left: 50%; transform: translateX(-50%); background: #36c98d; color: #06281a; font-size: 10px; font-weight: 800; padding: 2px 8px; border-radius: 999px; white-space: nowrap; }
+  .btn-outline { width: 100%; border: 1.5px solid #ffffff55; color: #fff; font-weight: 800; font-size: 15px; border-radius: 12px; padding: 12px; }
+
+  .ad-row { width: 100%; display: grid; grid-template-columns: 36px 1fr auto; gap: 10px; align-items: center; text-align: left; padding: 10px 12px; border-radius: 12px; background: transparent; border: 1px dashed var(--line); }
+  .ad-row b { display: block; font-size: 14px; } .ad-row div span { font-size: 12px; color: var(--muted); }
+  .ad-ico { width: 36px; height: 36px; border-radius: 50%; background: var(--surface-2); display: grid; place-items: center; font-size: 13px; }
+  .chip-left { font-size: 11px; font-weight: 800; color: var(--note); background: var(--note-soft); padding: 3px 8px; border-radius: 999px; }
+  .ad-row.used { opacity: .7; grid-template-columns: 36px 1fr; }
+
   @media (max-width: 900px) {
     body { padding-block: 12px; }
     .stage { grid-template-columns: 1fr; }
@@ -514,20 +561,51 @@
     const ctx = S.sheet.ctx, k = ctx === "story" ? S.show : "truck", s = SHOWS[k];
     const left = s.total - S.ep, next = S.ep + 1;
     const introOk = !S.sub;
+    const sel = PLANS[S.plan];
     const head = ctx === "story"
-      ? `<div class="teaser"><div class="blur"><div class="art" style="background:${s.art}"></div><span>Ep ${next}</span></div><div><small>YOU STOPPED AT EP ${S.ep}</small><h4>${s.hook}</h4><p>${left} episodes left · ${s.title}</p></div></div>`
-      : `<div class="teaser" style="grid-template-columns:1fr"><div><small>YOUR SHOWS</small><h4>Crorepati Truck Wala, Rishton Ka Rental and everything else</h4><p>Every show, one plan.</p></div></div>`;
-    const plans = Object.entries(PLANS).map(([key, p]) => `<button class="plan ${S.plan===key?"on":""}" data-plan="${key}">${p.flag?`<span class="flag">${p.flag}</span>`:""}<b>${p.hi}</b><span class="p">₹${p.price}</span><span>${p.note}</span></button>`).join("");
-    const ad = ctx === "story" ? (S.adUsedToday
-      ? `<div class="limit">You've used today's free unlock. Next one tomorrow, or make ${s.title} yours for ₹49.</div>`
-      : `<button class="adbtn" data-act="ad">▶ Watch an ad to unlock Ep ${next} · 1 free a day</button>`) : "";
-    return `<div class="scrim" data-act="closeSheet"><div class="sheet" role="dialog" aria-label="Plans" data-stop>
+      ? `<div class="pw-head"><div class="pw-thumb"><div class="art" style="background:${s.art}"></div><span>Ep ${next}</span></div>
+           <div><small>YOU STOPPED AT EP ${S.ep}</small><h4>${s.hook}</h4><p>${left} episodes left</p></div></div>`
+      : `<div class="pw-head solo"><div><small>YOUR SHOWS</small><h4>Unlock everything you follow</h4><p>Crorepati Truck Wala, Rishton Ka Rental and more</p></div></div>`;
+
+    const seg1 = introOk ? `
+      <section class="seg seg-intro" aria-label="First-time offer">
+        <div class="seg-eyebrow"><span class="pill-new">FIRST TIME OFFER</span></div>
+        <div class="intro-price"><b>₹49</b><span>for 7 days</span></div>
+        <ul class="ticks">
+          <li><i>✓</i><span><b>${s.title}</b> is yours to keep, even if you cancel</span></li>
+          <li><i>✓</i><span>Every show unlocked for 7 days</span></li>
+          <li><i>✓</i><span>WhatsApp reminder before any charge</span></li>
+        </ul>
+        <button class="btn-primary" data-act="buyIntro">Start for ₹49</button>
+        <p class="seg-fine">Then ₹199/month from ${fmt(S.day + 8)}. Change or cancel anytime.</p>
+      </section>
+      <div class="divider"><span>or subscribe now</span></div>` : "";
+
+    const plans = Object.entries(PLANS).map(([key, p]) => `
+      <button class="plan2 ${S.plan===key?"on":""}" data-plan="${key}" role="radio" aria-checked="${S.plan===key}">
+        ${p.flag ? `<span class="badge-best">${p.flag}</span>` : ""}
+        <span class="radio2" aria-hidden="true"></span>
+        <b>${p.name}</b><span class="pr">₹${p.price}</span><span class="per">${p.note}</span>
+      </button>`).join("");
+    const seg2 = `
+      <section class="seg seg-plans" aria-label="Plans">
+        ${introOk ? "" : `<div class="seg-title">Choose a plan</div>`}
+        <div class="plans2" role="radiogroup">${plans}</div>
+        <button class="${introOk ? "btn-outline" : "btn-primary"}" data-act="buyPlan">Subscribe · ₹${sel.price}/${sel.per}</button>
+      </section>`;
+
+    const seg3 = ctx === "story" ? `
+      <div class="divider"><span>or</span></div>
+      <section class="seg seg-ad" aria-label="Watch an ad">
+        ${S.adUsedToday
+          ? `<div class="ad-row used"><span class="ad-ico">⏳</span><div><b>Free unlock used today</b><span>Next one tomorrow</span></div></div>`
+          : `<button class="ad-row" data-act="ad"><span class="ad-ico">▶</span><div><b>Watch a short ad</b><span>Unlock Ep ${next} for free</span></div><span class="chip-left">1 left today</span></button>`}
+      </section>` : "";
+
+    return `<div class="scrim" data-act="closeSheet"><div class="sheet sheet2" role="dialog" aria-label="Unlock" data-stop>
+      <div class="grab" aria-hidden="true"></div>
       <div class="sheet-head">${head}<button class="x" data-act="closeSheet" aria-label="Close">✕</button></div>
-      ${introOk ? `<button class="intro" data-act="buyIntro"><em>FIRST TIME ONLY</em><b>₹49 · ${s.title} is yours + 7 days of everything</b><span>Then ₹199/month from ${fmt(S.day + 8)} · change or cancel anytime</span></button>` : ""}
-      <div class="or">${introOk ? "or pick a plan now" : "pick a plan"}</div>
-      <div class="plans">${plans}</div>
-      <button class="btn-plan" data-act="buyPlan">Get ${PLANS[S.plan].hi} · ₹${PLANS[S.plan].price}</button>
-      ${ad}
+      ${seg1}${seg2}${seg3}
       <p class="fine">Demo prices · no real payment</p></div></div>`;
   }
 
