@@ -387,6 +387,30 @@
     .phone { height: calc(100dvh - 72px) !important; border-radius: 22px; }
   }
 
+
+  /* ---------- Premium state ---------- */
+  .reset-btn { display: grid !important; place-items: center; font-size: 18px; }
+  .pill.prem { background: linear-gradient(135deg, #f7dc8b, #c9952c); color: #2a1c00; font-weight: 800; }
+  .phone.premium .app-top { background: radial-gradient(120% 140% at 50% -40%, #6b4b0e 0%, #0000 70%); }
+  .phone.premium .tabbar button[data-tab="plan"] { color: #f2c75c; }
+  .hero2-tag.prem { background: linear-gradient(135deg, #f7dc8b, #c9952c); color: #2a1c00; }
+  .phone.premium .hero2 { box-shadow: 0 0 0 1.5px #c9952c88; }
+  .p-prem { margin-left: auto; font-size: 11px; font-weight: 800; padding: 4px 9px; border-radius: 999px; background: linear-gradient(135deg, #f7dc8b, #c9952c); color: #2a1c00; }
+  .status.prem { background: linear-gradient(135deg, #f7dc8b, #c9952c); color: #2a1c00; }
+  .card.prem-card { background: linear-gradient(160deg, #2b2210, #18161c 60%); border: 1px solid #c9952c66; }
+  .welcome { position: absolute; inset: 0; z-index: 55; background: #0b0a0d; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 28px 22px; overflow: hidden; animation: fade .3s; }
+  .w-glow { position: absolute; width: 140%; aspect-ratio: 1; top: -55%; background: radial-gradient(circle, #c9952c66 0%, #e0177f22 35%, #0000 65%); }
+  .welcome > *:not(.w-glow) { position: relative; }
+  .w-crown { font-size: 54px; animation: pop .6s cubic-bezier(.2,1.6,.4,1); }
+  @keyframes pop { from { transform: scale(.3); opacity: 0; } }
+  .welcome small { color: #f2c75c; font-weight: 800; letter-spacing: .14em; font-size: 11px; margin-top: 10px; }
+  .welcome h2 { font-family: var(--display); font-weight: 800; font-size: 34px; margin: 6px 0 18px; }
+  .w-list { list-style: none; padding: 0; margin: 0 0 24px; display: grid; gap: 12px; text-align: left; width: 100%; }
+  .w-list li { display: grid; grid-template-columns: 26px 1fr; gap: 12px; align-items: start; background: #ffffff0a; border: 1px solid #ffffff14; border-radius: 12px; padding: 12px; }
+  .w-list i { font-style: normal; width: 26px; height: 26px; border-radius: 50%; background: linear-gradient(135deg, #f7dc8b, #c9952c); color: #2a1c00; display: grid; place-items: center; font-weight: 900; }
+  .w-list b { display: block; font-size: 14.5px; } .w-list span { font-size: 12.5px; color: var(--muted); }
+  .w-cta { width: 100%; background: linear-gradient(135deg, #f7dc8b, #c9952c); color: #2a1c00; font-weight: 800; font-size: 16px; border-radius: 12px; padding: 14px; }
+
   @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
 </style>
 </head>
@@ -427,6 +451,7 @@
         <button data-g="binger" role="tab" id="pBinger">Daily Binger</button>
       </div>
       <button class="info-btn" data-g="openGuide" aria-label="Open guide">ⓘ</button>
+      <button class="info-btn reset-btn" data-g="restart" aria-label="Reset this journey" title="Reset this journey">↺</button>
       <details class="jump" id="jump"><summary aria-label="Jump ahead">⏩</summary><div class="jump-menu" id="jumpMenu"></div></details>
     </div>
     <div class="phone" id="phone" aria-label="StoryTV concept app"></div>
@@ -508,7 +533,7 @@
     follows: ["truck", "rishte", "saas"], splash: false, genre: "All", myList: new Set(),
     sub: null, // { kind: "intro"|"plan", plan, status: "intro"|"active"|"cancelled", owned: [show], months: 0, billDay: 13, day: 0 }
     day: 0, plan: "monthly", billDay: 13,
-    sheet: null, upi: null, chat: null, compare: false, ad: null,
+    sheet: null, upi: null, chat: null, compare: false, ad: null, welcome: null,
     m: { plays: 0, pw: 0, intro: 0, plan: 0, paid: 0, kept: 0 },
   });
   let S = fresh();
@@ -546,14 +571,14 @@
   const matchG = (k) => S.genre === "All" || SHOWS[k].genre.startsWith(S.genre);
 
   function viewHome() {
-    const subTag = subOn() ? `<span class="pill">${S.sub.status === "intro" ? "Intro week" : PLANS[S.sub.plan].name}</span>` : `<button class="pill hot" data-act="paywallHome">₹49 offer</button>`;
+    const subTag = subOn() ? `<button class="pill prem" data-tab="plan">👑 ${premLabel()}</button>` : `<button class="pill hot" data-act="paywallHome">${S.sub ? "Get Premium" : "₹49 offer"}</button>`;
     // Hero
     const heroK = ["truck", "badla", "rishte", "saas", "inspector", "pishach", "chaiwala"].find(matchG) || "truck";
     const h = SHOWS[heroK], inList = S.myList.has(heroK);
     const hero = `<section class="hero2" aria-label="Featured">
         <div class="art" style="background:${h.art}"></div><div class="hero2-shade"></div>
         <div class="hero2-body">
-          <span class="hero2-tag">STORYTV ORIGINAL · #${ROWS.top10.indexOf(heroK) + 1 || 1} IN INDIA TODAY</span>
+          <span class="hero2-tag ${subOn() ? "prem" : ""}">${subOn() ? "👑 PREMIUM · ALL UNLOCKED" : `STORYTV ORIGINAL · #${ROWS.top10.indexOf(heroK) + 1 || 1} IN INDIA TODAY`}</span>
           <h2>${h.title}</h2>
           <p>${h.genre} · ${h.total} episodes · ${h.plays} plays</p>
           <div class="hero2-btns"><button class="hb-play" data-open="${heroK}">▶ Play Ep ${Math.min(lastEp(heroK) + 1, h.total)}</button>
@@ -570,7 +595,8 @@
       return `<button class="ys-card" data-open="${k}"><div class="ys-art"><div class="art" style="background:${s.art}"></div><span class="ys-st ${locked ? "lock" : "go"}">${locked ? "🔒 " + newEps + " NEW" : "▶ " + newEps + " NEW"}</span></div><b>${s.title}</b><span>From Ep ${next}</span></button>`;
     }).join("");
     const locked = S.follows.filter(k => !SHOWS[k].daily && !subOn() && !owns(k)).length;
-    const banner = (!subOn() && locked) ? `<button class="banner" data-act="paywallHome"><div><b>Unlock your ${locked} shows</b><span>₹49 for 7 days of everything · or pick a plan</span></div><span class="go">₹49</span></button>` : "";
+    const waiting = S.follows.filter(k => !SHOWS[k].daily && !subOn() && !owns(k)).reduce((n, k) => n + (k === "truck" ? 3 : 2), 0);
+    const banner = (!subOn() && locked) ? `<button class="banner" data-act="paywallHome"><div><b>${waiting} new episodes are waiting in your shows</b><span>${S.sub ? "Get every show from ₹59/week" : "₹49 unlocks every show for 7 days"}</span></div><span class="go">${S.sub ? "Plans" : "₹49"}</span></button>` : "";
     let loyal = "";
     if (S.sub && S.sub.status === "active" && S.sub.plan === "monthly") {
       const m = S.sub.months;
@@ -644,7 +670,7 @@
     const finale = n === s.total;
     const mini = subOn() && n >= 8 && !finale ? `<button class="mini-next" data-open="rishte"><div class="thumb"><div class="art" style="background:${SHOWS.rishte.art}"></div></div><div><small>UP NEXT · FOR YOU</small><b>Rishton Ka Rental</b></div></button>` : "";
     return `<div class="player"><div class="art" style="background:${s.art}"></div><div class="shade"></div>
-      <div class="p-top"><button class="back" style="position:static" data-act="series" aria-label="Back">${I.back}</button><div><b>${s.title}</b><br><span>Ep ${n} / ${s.total}</span></div></div>
+      <div class="p-top"><button class="back" style="position:static" data-act="series" aria-label="Back">${I.back}</button><div><b>${s.title}</b><br><span>Ep ${n} / ${s.total}</span></div>${subOn() ? `<span class="p-prem">👑 Premium</span>` : ""}</div>
       <div class="p-mid"><div>${twist ? `<span class="twist">BIG TWIST · LAST FREE EP</span>` : ""}${finale ? `<span class="twist">FINALE</span>` : ""}<p class="caption">${line}</p></div></div>
       <div class="p-bot">${mini}<div class="prog"><div id="prog"></div></div>
         <div class="ctrls"><button data-act="series">Episodes</button><button data-act="next">Next ep ›</button></div></div></div>`;
@@ -668,7 +694,7 @@
       const s = S.sub, p = PLANS[s.plan], st = s.status;
       const charge = st === "intro" ? `₹${p.price} · ${fmt(s.start + 8)}` : st === "active" ? `₹${price()} · on the ${S.billDay}${S.billDay===1?"st":"th"} of each month` : "None";
       const loyal = s.plan === "monthly" && st !== "cancelled" ? `<div style="margin-top:12px;font-size:13px"><b>Earn the quarterly price</b><div class="meter"><div style="width:${Math.min(s.months,3)/3*100}%"></div></div><p style="margin-top:6px">${s.months >= 4 ? "⭐ Earned! Now ₹166/month." : s.months === 3 ? "⭐ Earned! ₹166/month from your next renewal." : `${s.months} of 3 months done · ₹166/month from month 4`}</p></div>` : "";
-      body = `<div class="card"><span class="status ${st==="cancelled"?"off":""}">${st==="intro"?"INTRO WEEK":st==="active"?"ACTIVE":"CANCELLED"}</span>
+      body = `<div class="card ${st!=="cancelled"?"prem-card":""}"><span class="status ${st==="cancelled"?"off":"prem"}">${st==="intro"?"INTRO WEEK":st==="active"?"ACTIVE":"CANCELLED"}</span>
         <h4>${st==="intro" ? `₹49 intro · then ${p.name} ₹${p.price}/${p.per}` : st==="cancelled" ? (s.kind==="intro" && !s.d8 ? "₹49 intro week · cancelled" : `${p.name} · cancelled`) : `${p.name} · ₹${price()}/${p.per}`}</h4>
         <p>${st==="cancelled" ? `AutoPay stopped. No more charges.${S.day < s.accessUntil ? ` All shows until ${fmt(s.accessUntil - 1)}.` : ""}` : "We'll remind you on WhatsApp before every charge."}</p>
         <dl class="kv"><dt>Next charge</dt><dd>${charge}</dd><dt>UPI AutoPay</dt><dd>${st==="cancelled" ? "Stopped (revoked)" : `On · max ₹${p.price}`}</dd>${s.owned.length ? `<dt>Yours to keep</dt><dd>${s.owned.map(k=>SHOWS[k].title).join(", ")}</dd>` : ""}</dl>${loyal}
@@ -699,7 +725,7 @@
     const head = ctx === "story"
       ? `<div class="pw-head"><div class="pw-thumb"><div class="art" style="background:${s.art}"></div><span>Ep ${next}</span></div>
            <div><small>YOU STOPPED AT EP ${S.ep}</small><h4>${s.hook}</h4><p>${left} episodes left</p></div></div>`
-      : `<div class="pw-head solo"><div><small>YOUR SHOWS</small><h4>Unlock everything you follow</h4><p>Crorepati Truck Wala, Rishton Ka Rental and more</p></div></div>`;
+      : `<div class="pw-head solo"><div><small>YOUR SHOWS ARE WAITING</small><h4>Unlock every show</h4><p>Including Crorepati Truck Wala and Rishton Ka Rental</p></div></div>`;
 
     const seg1 = introOk ? `
       <section class="seg seg-intro" aria-label="First-time offer">
@@ -825,6 +851,7 @@
     if (S.compare) return ["Today's StoryTV paywall", [["Baseline", "One plan (₹1 for 1 day → ₹699 / quarter), no close button, shown at sign-up and after a fixed Ep 3."]]];
     if (S.ad && S.ad.kind === "insta") return ["The ad that brings a Story Chaser", [["#3", "Tapping the ad deep-links to Ep 1 of this exact show. No sign-up paywall."]]];
     if (S.ad) return ["1 ad unlock a day", [["#11", "Closing the paywall isn't a dead end, but nothing is free all the way: 1 unlock a day, and unlocked stays unlocked."]]];
+    if (S.welcome) return ["The premium moment", [["UX", "Paying should feel like something happened: a clear confirmation of what they got, when the reminder comes, and what happens next."], ["Theme", "The app switches to a gold premium look while the plan is active, and reverts if access ends."]]];
     if (S.upi) return ["Simulated UPI approval", [["#1", "One approval: the first amount now, and an AutoPay mandate capped at the plan price."], ["Note", "No PIN field. This is a demo."]]];
     if (S.chat === "day6") return ["Day-6 WhatsApp reminder", [["#1 #8", "Sent before the first ₹199 charge, with usage and one-tap Keep / Switch / Cancel."], ["Trust", "Cancel keeps the ₹49 show and revokes AutoPay."]]];
     if (S.chat) return ["Renewal reminder that shows value", [["#8", "2 days before every renewal: what they watched, and progress to ₹166."], ["#4", "Earn the quarterly price: 3 months in a row → ₹166 / month."]]];
@@ -879,7 +906,9 @@
     if (S.chat) html += overlayChat();
     if (S.compare) html += overlayToday();
     if (S.splash) html += overlaySplash();
+    if (S.welcome) html += overlayWelcome();
     phone.innerHTML = html;
+    phone.classList.toggle("premium", !!subOn());
     renderBar();
     if (S.screen === "player" && !S.sheet && !S.ad && !S.chat && !S.compare && !S.splash && !S.upi) startProgress();
     if (S.ad && S.ad.kind === "unlock") startAd();
@@ -926,7 +955,26 @@
     const back = S.sheet.from;
     S.sheet = null; S.upi = null;
     if (back === "story") { S.screen = "player"; S.ep = Math.min(S.ep + 1, SHOWS[S.show].total); }
-    toast(intro ? `Payment done! ${SHOWS[show].title} is yours to keep.` : `${PLANS[S.plan].name} plan started. Every show unlocked!`);
+    S.welcome = intro ? "intro" : "plan";
+    render();
+  }
+
+  function premLabel() {
+    const s = S.sub;
+    if (s.status === "intro") { const left = Math.max(1, s.start + 7 - S.day); return `Intro · ${left} day${left === 1 ? "" : "s"} left`; }
+    if (s.status === "cancelled") return "Until " + fmt(s.accessUntil - 1);
+    return "Premium";
+  }
+
+  function overlayWelcome() {
+    const s = S.sub, intro = S.welcome === "intro", p = PLANS[s.plan];
+    const rows = intro
+      ? [[`${SHOWS[s.owned[0]].title} is yours to keep`, "Even if you cancel"], [`Every show unlocked until ${fmt(s.start + 7)}`, "Ad-free, no limits"], [`WhatsApp reminder on ${fmt(s.start + 6)}`, `Then ${p.name} ₹${p.price}/${p.per}, change or cancel anytime`]]
+      : [["Every show unlocked", "Ad-free, no limits"], [`${p.name} · ₹${p.price}/${p.per}`, `Next charge on ${fmt(S.day + (s.plan === "weekly" ? 7 : s.plan === "monthly" ? 30 : 90))}`], s.plan === "monthly" ? ["Stay 3 months in a row", "Your price drops to ₹166/month"] : ["Reminder before every charge", "Cancel in one tap; AutoPay stops too"]];
+    return `<div class="welcome" role="dialog" aria-label="Welcome to Premium"><div class="w-glow"></div>
+      <div class="w-crown">👑</div><small>PAYMENT SUCCESSFUL</small><h2>You're Premium!</h2>
+      <ul class="w-list">${rows.map(([b, t]) => `<li><i>✓</i><div><b>${b}</b><span>${t}</span></div></li>`).join("")}</ul>
+      <button class="w-cta" data-act="closeWelcome">Continue watching</button></div>`;
   }
 
   // ---------- Events ----------
@@ -984,6 +1032,7 @@
       case "approve": return purchase();
       case "ad": S.ad = { kind: "unlock", show: S.show }; S.sheet = null; break;
       case "closeCompare": S.compare = false; break;
+      case "closeWelcome": S.welcome = null; break;
       case "closeChat": S.chat = null; break;
       case "keep": S.chat = null; return toast("Great! Your plan continues.");
       case "renew": {
