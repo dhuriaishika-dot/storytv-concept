@@ -6,6 +6,7 @@
 <title>StoryTV Concept</title>
 <meta name="description" content="Concept prototype for a StoryTV case study: story-first subscription. Fictional shows, demo payments.">
 <meta name="theme-color" content="#0b0a0d">
+<meta http-equiv="Cache-Control" content="no-cache">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -424,7 +425,7 @@
       </div>
       <h1>Subscription, sold through the story</h1>
       <p class="lede">Switch persona and jump ahead in time from the bar above the app. This panel explains what changed on each screen, tagged with the priority numbers from the deck.</p>
-      <p class="disclaimer">Concept prototype for a case study. Not affiliated with StoryTV. Fictional shows, demo payments, no real money.</p>
+      <p class="disclaimer">Concept prototype for a case study. Not affiliated with StoryTV. Fictional shows, demo payments, no real money. <b>Build 6 Oct · v14</b></p>
     </div>
     <div class="panel" aria-live="polite">
       <h2>What changed on this screen</h2>
@@ -652,7 +653,7 @@
     }
     const band = subOn() || owns(k)
       ? `<div class="band ok">✅ <span>${owns(k) ? `<b>${s.title} is yours to keep.</b> ` : ""}${subOn() ? "All episodes unlocked." : ""}</span></div>`
-      : `<div class="band">✨ <span><b>Ep 1–${s.free} free.</b> Unlock the rest with Premium.</span></div>`;
+      : "";
     const upnext = (subOn() && lastEp(k) >= 6) ? `<div class="upnext"><div class="sec"><h3>Up next</h3><small>Loved by ${s.title} fans</small></div><div class="hrow">${poster("rishte")}${poster("nurse")}${poster("inspector")}</div></div>` : "";
     return `${status()}<div class="scroll">
       <div class="hero"><div class="art" style="background:${s.art}"></div><button class="back" data-act="home" aria-label="Back">${I.back}</button><h2>${s.title}</h2></div>
@@ -1078,7 +1079,7 @@
   });
 
   if (load()) render(); else guideAction("chaser");
-  if ("serviceWorker" in navigator && location.protocol.startsWith("http")) navigator.serviceWorker.register("sw.js").catch(() => {});
+  if ("serviceWorker" in navigator && location.protocol.startsWith("http")) navigator.serviceWorker.register("sw.js", { updateViaCache: "none" }).catch(() => {});
 })();
 </script>
 </body>
